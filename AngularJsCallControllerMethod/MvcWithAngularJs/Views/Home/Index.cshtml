@@ -1,0 +1,30 @@
+﻿@model List<MvcWithAngularJs.Models.TestObj>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div ng-controller="vwMdl">
+        <ul>
+            <li ng-repeat="objs in testObjs">
+                <span>{{objs.Description}}</span>
+            </li>
+        </ul>
+            <input type="submit" ng-click="update()" value="update" />
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function vwMdl($scope, $http) {
+        $scope.testObjs = @Html.Raw(Json.Encode(Model));
+
+        $scope.update = function() {
+            $http.post("@Url.Action("UpdateVwMdl", "Home")").success(function(data) {
+                $scope.testObjs = data;
+            }); 
+        };
+    }
+</script>
